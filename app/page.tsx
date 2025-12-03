@@ -92,6 +92,41 @@ export default function CottonPricesForm() {
     e.preventDefault()
     setMessage('')
 
+    // Confirm the date before submission
+    const dateConfirmed = window.confirm(
+      `You are submitting data for:\n\n${formData.date}\n\nIs this the correct date?`
+    )
+    if (!dateConfirmed) {
+      return
+    }
+
+    // Check if data already exists for this date
+    try {
+      const checkResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/cotton_prices?date=eq.${formData.date}&select=id`,
+        {
+          headers: {
+            'apikey': process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!}`,
+          },
+        }
+      )
+
+      if (checkResponse.ok) {
+        const existingData = await checkResponse.json()
+        if (existingData && existingData.length > 0) {
+          const overwriteConfirmed = window.confirm(
+            `⚠️ WARNING: Data already exists for ${formData.date}\n\nYou are going to overwrite the existing data.\n\nDo you want to continue?`
+          )
+          if (!overwriteConfirmed) {
+            return
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error checking for existing data:', error)
+    }
+
     // Check for empty fields (excluding date which is required)
     const empty: string[] = []
     Object.entries(formData).forEach(([key, value]) => {
