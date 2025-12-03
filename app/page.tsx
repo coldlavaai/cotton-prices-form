@@ -4,13 +4,16 @@ import { useState, FormEvent } from 'react'
 import Image from 'next/image'
 
 export default function CottonPricesForm() {
-  const today = new Date().toISOString().split('T')[0]
+  // Default to yesterday since data is always 1 day behind
+  const yesterday = new Date()
+  yesterday.setDate(yesterday.getDate() - 1)
+  const defaultDate = yesterday.toISOString().split('T')[0]
 
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
   const [formData, setFormData] = useState({
-    date: today,
+    date: defaultDate,
     marketing_year: '',
     cny_exchange_rate: '',
     czce_cotton: '',
@@ -90,9 +93,9 @@ export default function CottonPricesForm() {
 
       setMessage('✅ Data saved successfully!')
 
-      // Reset form but keep today's date
+      // Reset form but keep yesterday's date
       setFormData({
-        date: today,
+        date: defaultDate,
         marketing_year: '',
         cny_exchange_rate: '',
         czce_cotton: '',
