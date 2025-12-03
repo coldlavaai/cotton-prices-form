@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, FormEvent } from 'react'
+import Image from 'next/image'
 
 export default function CottonPricesForm() {
   const today = new Date().toISOString().split('T')[0]
@@ -128,25 +129,56 @@ export default function CottonPricesForm() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
-      <div className="max-w-6xl mx-auto">
-        <div className="bg-white rounded-lg shadow-xl p-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Daily Cotton Prices Entry</h1>
-          <p className="text-gray-600 mb-6">Enter today's cotton price data</p>
+    <div className="min-h-screen bg-slate-950">
+      {/* Header */}
+      <header className="bg-slate-900 border-b border-slate-700">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex items-center gap-4">
+            <Image
+              src="/lcb-logo.png"
+              alt="Liverpool Cotton Brokers"
+              width={80}
+              height={40}
+              className="object-contain brightness-0 invert"
+            />
+            <div className="flex flex-col">
+              <div className="text-sm font-semibold text-white">Professional Market Intelligence</div>
+              <div className="text-xs font-medium text-yellow-500">20 Years of Data</div>
+            </div>
+          </div>
+        </div>
+      </header>
 
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="bg-slate-900 rounded-lg border border-slate-700 p-8">
+          {/* Title Section */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-white mb-2">Daily Cotton Prices Entry</h1>
+            <p className="text-slate-400">Enter daily market data for professional analysis and reporting</p>
+          </div>
+
+          {/* Message */}
           {message && (
-            <div className={`mb-6 p-4 rounded-lg ${message.includes('✅') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+            <div className={`mb-6 p-4 rounded-lg border ${
+              message.includes('✅')
+                ? 'bg-green-950 border-green-800 text-green-400'
+                : 'bg-red-950 border-red-800 text-red-400'
+            }`}>
               {message}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Date and Marketing Year */}
-            <div className="border-b pb-6">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4">Date Information</h2>
+            <div className="border-b border-slate-700 pb-8">
+              <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                <span className="w-1 h-6 bg-yellow-500 rounded"></span>
+                Date Information
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     Date <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -155,11 +187,11 @@ export default function CottonPricesForm() {
                     value={formData.date}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     Marketing Year
                   </label>
                   <input
@@ -168,18 +200,21 @@ export default function CottonPricesForm() {
                     value={formData.marketing_year}
                     onChange={handleChange}
                     placeholder="e.g., 25/26"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
               </div>
             </div>
 
             {/* Exchange Rates */}
-            <div className="border-b pb-6">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4">Exchange Rates</h2>
+            <div className="border-b border-slate-700 pb-8">
+              <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                <span className="w-1 h-6 bg-yellow-500 rounded"></span>
+                Exchange Rates
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     CNY Exchange Rate
                   </label>
                   <input
@@ -189,11 +224,11 @@ export default function CottonPricesForm() {
                     value={formData.cny_exchange_rate}
                     onChange={handleChange}
                     placeholder="7.0768"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     INR Exchange Rate
                   </label>
                   <input
@@ -203,18 +238,21 @@ export default function CottonPricesForm() {
                     value={formData.inr_exchange_rate}
                     onChange={handleChange}
                     placeholder="89.5530"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
               </div>
             </div>
 
             {/* CZCE Cotton */}
-            <div className="border-b pb-6">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4">CZCE Cotton</h2>
+            <div className="border-b border-slate-700 pb-8">
+              <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                <span className="w-1 h-6 bg-yellow-500 rounded"></span>
+                CZCE Cotton
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     CZCE Cotton
                   </label>
                   <input
@@ -224,11 +262,11 @@ export default function CottonPricesForm() {
                     value={formData.czce_cotton}
                     onChange={handleChange}
                     placeholder="13760.00"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     CZCE Cotton USC/LB
                   </label>
                   <input
@@ -238,18 +276,21 @@ export default function CottonPricesForm() {
                     value={formData.czce_cotton_usc_lb}
                     onChange={handleChange}
                     placeholder="88.20"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
               </div>
             </div>
 
             {/* CZCE Yarn */}
-            <div className="border-b pb-6">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4">CZCE Yarn</h2>
+            <div className="border-b border-slate-700 pb-8">
+              <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                <span className="w-1 h-6 bg-yellow-500 rounded"></span>
+                CZCE Yarn
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     CZCE Yarn
                   </label>
                   <input
@@ -259,11 +300,11 @@ export default function CottonPricesForm() {
                     value={formData.czce_yarn}
                     onChange={handleChange}
                     placeholder="20045.00"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     CZCE Yarn USC/LB
                   </label>
                   <input
@@ -273,18 +314,21 @@ export default function CottonPricesForm() {
                     value={formData.czce_yarn_usc_lb}
                     onChange={handleChange}
                     placeholder="128.48"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
               </div>
             </div>
 
             {/* CC Index */}
-            <div className="border-b pb-6">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4">CC Index</h2>
+            <div className="border-b border-slate-700 pb-8">
+              <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                <span className="w-1 h-6 bg-yellow-500 rounded"></span>
+                CC Index
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     CC Index
                   </label>
                   <input
@@ -294,11 +338,11 @@ export default function CottonPricesForm() {
                     value={formData.cc_index}
                     onChange={handleChange}
                     placeholder="14936.00"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     CC Index USC/LB
                   </label>
                   <input
@@ -308,18 +352,21 @@ export default function CottonPricesForm() {
                     value={formData.cc_index_usc_lb}
                     onChange={handleChange}
                     placeholder="95.73"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
               </div>
             </div>
 
             {/* CZCE PSF */}
-            <div className="border-b pb-6">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4">CZCE PSF</h2>
+            <div className="border-b border-slate-700 pb-8">
+              <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                <span className="w-1 h-6 bg-yellow-500 rounded"></span>
+                CZCE PSF
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     CZCE PSF
                   </label>
                   <input
@@ -329,11 +376,11 @@ export default function CottonPricesForm() {
                     value={formData.czce_psf}
                     onChange={handleChange}
                     placeholder="6276.00"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     CZCE PSF USC/LB
                   </label>
                   <input
@@ -343,18 +390,21 @@ export default function CottonPricesForm() {
                     value={formData.czce_psf_usc_lb}
                     onChange={handleChange}
                     placeholder="40.23"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
               </div>
             </div>
 
             {/* CZCE PTA */}
-            <div className="border-b pb-6">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4">CZCE PTA</h2>
+            <div className="border-b border-slate-700 pb-8">
+              <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                <span className="w-1 h-6 bg-yellow-500 rounded"></span>
+                CZCE PTA
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     CZCE PTA
                   </label>
                   <input
@@ -364,11 +414,11 @@ export default function CottonPricesForm() {
                     value={formData.czce_pta}
                     onChange={handleChange}
                     placeholder="4736.00"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     CZCE PTA USC/LB
                   </label>
                   <input
@@ -378,18 +428,21 @@ export default function CottonPricesForm() {
                     value={formData.czce_pta_usc_lb}
                     onChange={handleChange}
                     placeholder="30.36"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
               </div>
             </div>
 
             {/* MCX */}
-            <div className="border-b pb-6">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4">MCX</h2>
+            <div className="border-b border-slate-700 pb-8">
+              <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                <span className="w-1 h-6 bg-yellow-500 rounded"></span>
+                MCX
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     MCX
                   </label>
                   <input
@@ -398,11 +451,11 @@ export default function CottonPricesForm() {
                     name="mcx"
                     value={formData.mcx}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     MCX USC/LB
                   </label>
                   <input
@@ -411,18 +464,21 @@ export default function CottonPricesForm() {
                     name="mcx_usc_lb"
                     value={formData.mcx_usc_lb}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
               </div>
             </div>
 
             {/* ICE */}
-            <div className="border-b pb-6">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4">ICE</h2>
+            <div className="border-b border-slate-700 pb-8">
+              <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                <span className="w-1 h-6 bg-yellow-500 rounded"></span>
+                ICE
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     ICE
                   </label>
                   <input
@@ -432,11 +488,11 @@ export default function CottonPricesForm() {
                     value={formData.ice}
                     onChange={handleChange}
                     placeholder="64.63"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     ICE High
                   </label>
                   <input
@@ -446,11 +502,11 @@ export default function CottonPricesForm() {
                     value={formData.ice_hi}
                     onChange={handleChange}
                     placeholder="64.82"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     ICE Low
                   </label>
                   <input
@@ -460,11 +516,11 @@ export default function CottonPricesForm() {
                     value={formData.ice_lo}
                     onChange={handleChange}
                     placeholder="64.27"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     ICE Spread
                   </label>
                   <input
@@ -474,18 +530,21 @@ export default function CottonPricesForm() {
                     value={formData.ice_spread}
                     onChange={handleChange}
                     placeholder="-1.15"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
               </div>
             </div>
 
             {/* Trading Data */}
-            <div className="border-b pb-6">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4">Trading Data</h2>
+            <div className="border-b border-slate-700 pb-8">
+              <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                <span className="w-1 h-6 bg-yellow-500 rounded"></span>
+                Trading Data
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     Volume
                   </label>
                   <input
@@ -494,11 +553,11 @@ export default function CottonPricesForm() {
                     value={formData.volume}
                     onChange={handleChange}
                     placeholder="33,524"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     Open Interest
                   </label>
                   <input
@@ -506,18 +565,21 @@ export default function CottonPricesForm() {
                     name="open_interest"
                     value={formData.open_interest}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
               </div>
             </div>
 
             {/* Other Indices */}
-            <div className="border-b pb-6">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4">Other Indices</h2>
+            <div className="pb-8">
+              <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                <span className="w-1 h-6 bg-yellow-500 rounded"></span>
+                Other Indices
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     A Index
                   </label>
                   <input
@@ -527,11 +589,11 @@ export default function CottonPricesForm() {
                     value={formData.a_index}
                     onChange={handleChange}
                     placeholder="75.05"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     AWP
                   </label>
                   <input
@@ -541,11 +603,11 @@ export default function CottonPricesForm() {
                     value={formData.awp}
                     onChange={handleChange}
                     placeholder="50.77"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     Certificates
                   </label>
                   <input
@@ -554,11 +616,11 @@ export default function CottonPricesForm() {
                     value={formData.certificates}
                     onChange={handleChange}
                     placeholder="20,344"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
                     EFP
                   </label>
                   <input
@@ -568,18 +630,18 @@ export default function CottonPricesForm() {
                     value={formData.efp}
                     onChange={handleChange}
                     placeholder="113.00"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
               </div>
             </div>
 
             {/* Submit Button */}
-            <div className="flex justify-end pt-6">
+            <div className="flex justify-end pt-6 border-t border-slate-700">
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg shadow-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                className="bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-semibold py-3 px-8 rounded-lg shadow-lg transition-all duration-200 disabled:bg-slate-700 disabled:text-slate-500 disabled:cursor-not-allowed"
               >
                 {loading ? 'Saving...' : 'Submit Daily Prices'}
               </button>
