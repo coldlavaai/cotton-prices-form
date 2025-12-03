@@ -51,6 +51,35 @@ export default function CottonPricesForm() {
     }
   }
 
+  // Field name mapping for readable labels
+  const fieldLabels: Record<string, string> = {
+    marketing_year: 'Marketing Year',
+    cny_exchange_rate: 'CNY Exchange Rate',
+    czce_cotton: 'CZCE Cotton',
+    czce_cotton_usc_lb: 'CZCE Cotton USC/LB',
+    czce_yarn: 'CZCE Yarn',
+    czce_yarn_usc_lb: 'CZCE Yarn USC/LB',
+    cc_index: 'CC Index',
+    cc_index_usc_lb: 'CC Index USC/LB',
+    czce_psf: 'CZCE PSF',
+    czce_psf_usc_lb: 'CZCE PSF USC/LB',
+    czce_pta: 'CZCE PTA',
+    czce_pta_usc_lb: 'CZCE PTA USC/LB',
+    inr_exchange_rate: 'INR Exchange Rate',
+    mcx: 'MCX',
+    mcx_usc_lb: 'MCX USC/LB',
+    ice: 'ICE',
+    ice_hi: 'ICE High',
+    ice_lo: 'ICE Low',
+    ice_spread: 'ICE Spread',
+    volume: 'Volume',
+    open_interest: 'Open Interest',
+    a_index: 'A Index',
+    awp: 'AWP',
+    certificates: 'Certificates',
+    efp: 'EFP',
+  }
+
   const getInputClassName = (fieldName: string) => {
     const baseClass = "w-full px-4 py-2.5 bg-slate-800 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
     const borderClass = emptyFields.includes(fieldName)
@@ -75,8 +104,9 @@ export default function CottonPricesForm() {
 
     // If there are empty fields, show confirmation
     if (empty.length > 0) {
+      const emptyFieldNames = empty.map(field => fieldLabels[field] || field).join('\n• ')
       const confirmed = window.confirm(
-        `⚠️ Warning: ${empty.length} field(s) are empty.\n\nEmpty fields: ${empty.join(', ')}\n\nIt is recommended to fill all fields daily. Are you sure you want to submit with empty fields?`
+        `The following fields are empty:\n\n• ${emptyFieldNames}\n\nAre you happy to continue with these fields empty?`
       )
       if (!confirmed) {
         return
