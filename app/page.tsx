@@ -11,6 +11,7 @@ export default function CottonPricesForm() {
 
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const [emptyFields, setEmptyFields] = useState<string[]>([])
 
   const [formData, setFormData] = useState({
     date: defaultDate,
@@ -44,12 +45,45 @@ export default function CottonPricesForm() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
+    // Clear empty field warning when field is filled
+    if (value && emptyFields.includes(name)) {
+      setEmptyFields(prev => prev.filter(field => field !== name))
+    }
+  }
+
+  const getInputClassName = (fieldName: string) => {
+    const baseClass = "w-full px-4 py-2.5 bg-slate-800 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+    const borderClass = emptyFields.includes(fieldName)
+      ? "border-2 border-red-500"
+      : "border border-slate-700"
+    return `${baseClass} ${borderClass}`
   }
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    setLoading(true)
     setMessage('')
+
+    // Check for empty fields (excluding date which is required)
+    const empty: string[] = []
+    Object.entries(formData).forEach(([key, value]) => {
+      if (key !== 'date' && !value) {
+        empty.push(key)
+      }
+    })
+
+    setEmptyFields(empty)
+
+    // If there are empty fields, show confirmation
+    if (empty.length > 0) {
+      const confirmed = window.confirm(
+        `⚠️ Warning: ${empty.length} field(s) are empty.\n\nEmpty fields: ${empty.join(', ')}\n\nIt is recommended to fill all fields daily. Are you sure you want to submit with empty fields?`
+      )
+      if (!confirmed) {
+        return
+      }
+    }
+
+    setLoading(true)
 
     try {
       // Convert empty strings to null for numeric fields
@@ -190,7 +224,7 @@ export default function CottonPricesForm() {
                     value={formData.date}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("date")}
                   />
                 </div>
                 <div>
@@ -203,7 +237,7 @@ export default function CottonPricesForm() {
                     value={formData.marketing_year}
                     onChange={handleChange}
                     placeholder="e.g., 25/26"
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("marketing_year")}
                   />
                 </div>
               </div>
@@ -227,7 +261,7 @@ export default function CottonPricesForm() {
                     value={formData.cny_exchange_rate}
                     onChange={handleChange}
                     placeholder="7.0768"
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("cny_exchange_rate")}
                   />
                 </div>
                 <div>
@@ -241,7 +275,7 @@ export default function CottonPricesForm() {
                     value={formData.inr_exchange_rate}
                     onChange={handleChange}
                     placeholder="89.5530"
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("inr_exchange_rate")}
                   />
                 </div>
               </div>
@@ -265,7 +299,7 @@ export default function CottonPricesForm() {
                     value={formData.czce_cotton}
                     onChange={handleChange}
                     placeholder="13760.00"
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("czce_cotton")}
                   />
                 </div>
                 <div>
@@ -279,7 +313,7 @@ export default function CottonPricesForm() {
                     value={formData.czce_cotton_usc_lb}
                     onChange={handleChange}
                     placeholder="88.20"
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("czce_cotton_usc_lb")}
                   />
                 </div>
               </div>
@@ -303,7 +337,7 @@ export default function CottonPricesForm() {
                     value={formData.czce_yarn}
                     onChange={handleChange}
                     placeholder="20045.00"
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("czce_yarn")}
                   />
                 </div>
                 <div>
@@ -317,7 +351,7 @@ export default function CottonPricesForm() {
                     value={formData.czce_yarn_usc_lb}
                     onChange={handleChange}
                     placeholder="128.48"
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("czce_yarn_usc_lb")}
                   />
                 </div>
               </div>
@@ -341,7 +375,7 @@ export default function CottonPricesForm() {
                     value={formData.cc_index}
                     onChange={handleChange}
                     placeholder="14936.00"
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("cc_index")}
                   />
                 </div>
                 <div>
@@ -355,7 +389,7 @@ export default function CottonPricesForm() {
                     value={formData.cc_index_usc_lb}
                     onChange={handleChange}
                     placeholder="95.73"
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("cc_index_usc_lb")}
                   />
                 </div>
               </div>
@@ -379,7 +413,7 @@ export default function CottonPricesForm() {
                     value={formData.czce_psf}
                     onChange={handleChange}
                     placeholder="6276.00"
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("czce_psf")}
                   />
                 </div>
                 <div>
@@ -393,7 +427,7 @@ export default function CottonPricesForm() {
                     value={formData.czce_psf_usc_lb}
                     onChange={handleChange}
                     placeholder="40.23"
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("czce_psf_usc_lb")}
                   />
                 </div>
               </div>
@@ -417,7 +451,7 @@ export default function CottonPricesForm() {
                     value={formData.czce_pta}
                     onChange={handleChange}
                     placeholder="4736.00"
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("czce_pta")}
                   />
                 </div>
                 <div>
@@ -431,7 +465,7 @@ export default function CottonPricesForm() {
                     value={formData.czce_pta_usc_lb}
                     onChange={handleChange}
                     placeholder="30.36"
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("czce_pta_usc_lb")}
                   />
                 </div>
               </div>
@@ -454,7 +488,7 @@ export default function CottonPricesForm() {
                     name="mcx"
                     value={formData.mcx}
                     onChange={handleChange}
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("mcx")}
                   />
                 </div>
                 <div>
@@ -467,7 +501,7 @@ export default function CottonPricesForm() {
                     name="mcx_usc_lb"
                     value={formData.mcx_usc_lb}
                     onChange={handleChange}
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("mcx_usc_lb")}
                   />
                 </div>
               </div>
@@ -491,7 +525,7 @@ export default function CottonPricesForm() {
                     value={formData.ice}
                     onChange={handleChange}
                     placeholder="64.63"
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("ice")}
                   />
                 </div>
                 <div>
@@ -505,7 +539,7 @@ export default function CottonPricesForm() {
                     value={formData.ice_hi}
                     onChange={handleChange}
                     placeholder="64.82"
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("ice_hi")}
                   />
                 </div>
                 <div>
@@ -519,7 +553,7 @@ export default function CottonPricesForm() {
                     value={formData.ice_lo}
                     onChange={handleChange}
                     placeholder="64.27"
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("ice_lo")}
                   />
                 </div>
                 <div>
@@ -533,7 +567,7 @@ export default function CottonPricesForm() {
                     value={formData.ice_spread}
                     onChange={handleChange}
                     placeholder="-1.15"
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("ice_spread")}
                   />
                 </div>
               </div>
@@ -556,7 +590,7 @@ export default function CottonPricesForm() {
                     value={formData.volume}
                     onChange={handleChange}
                     placeholder="33,524"
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("volume")}
                   />
                 </div>
                 <div>
@@ -568,7 +602,7 @@ export default function CottonPricesForm() {
                     name="open_interest"
                     value={formData.open_interest}
                     onChange={handleChange}
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("open_interest")}
                   />
                 </div>
               </div>
@@ -592,7 +626,7 @@ export default function CottonPricesForm() {
                     value={formData.a_index}
                     onChange={handleChange}
                     placeholder="75.05"
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("a_index")}
                   />
                 </div>
                 <div>
@@ -606,7 +640,7 @@ export default function CottonPricesForm() {
                     value={formData.awp}
                     onChange={handleChange}
                     placeholder="50.77"
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("awp")}
                   />
                 </div>
                 <div>
@@ -619,7 +653,7 @@ export default function CottonPricesForm() {
                     value={formData.certificates}
                     onChange={handleChange}
                     placeholder="20,344"
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("certificates")}
                   />
                 </div>
                 <div>
@@ -633,7 +667,7 @@ export default function CottonPricesForm() {
                     value={formData.efp}
                     onChange={handleChange}
                     placeholder="113.00"
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                    className={getInputClassName("efp")}
                   />
                 </div>
               </div>
